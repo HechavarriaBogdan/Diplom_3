@@ -1,5 +1,7 @@
 package praktikum.pages;
 
+import io.qameta.allure.Step;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,18 +20,28 @@ public class MainPage {
         this.driver = driver;
     }
 
+    // Локатор отображения кнопки входа на главной странице
     private final By loginButton = By.xpath(".//button[contains(text(),'Войти в аккаунт')]");
-
-    //Метод открывает веб страницу
+    // Локатор отображения кнопки оформления заказа на главной странице
+    private final By orderButton = By.xpath(".//button[contains(@class, button_button_size_large__G21Vg) and contains(text(), 'Оформить заказ')]");
+    @Step("Открываю веб страницу")
     public void open() {
         driver.get(EnvComfig.BASE_URL);
     }
 
-    //Метод нажимает на кнопку "Войти в аккаунт"
+    @Step("Нажимаю на кнопку \"Войти в аккаунт\"")
     public void clickLoginButton() {
         WebElement inputElement = driver.findElement(loginButton);
         new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT))
                 .until(ExpectedConditions.visibilityOfElementLocated(loginButton));
         inputElement.click();
+    }
+
+    @Step("Проверяю отображение кнопки \"Оформить заказ\"")
+    public void checkOrderButton() {
+        WebElement inputElement = driver.findElement(orderButton);
+        new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT))
+                .until(ExpectedConditions.visibilityOfElementLocated(orderButton));
+        Assert.assertTrue(inputElement.isDisplayed());
     }
 }

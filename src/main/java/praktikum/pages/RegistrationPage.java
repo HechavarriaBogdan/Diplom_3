@@ -1,9 +1,17 @@
 package praktikum.pages;
 
+import io.qameta.allure.Step;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import praktikum.UserCredentials;
+
+import java.time.Duration;
+
+import static praktikum.EnvComfig.EXPLICIT_WAIT;
 
 public class RegistrationPage {
     private final WebDriver driver;
@@ -14,19 +22,25 @@ public class RegistrationPage {
         this.user = user;
     }
 
+    // Локатор отображения инпута ввода имени на странице регистрации
     private final By registrationNameInput = By.xpath(".//fieldset[contains(@class, 'Auth_fieldset__1QzWN mb-6')][1]//input[@type='text' and @name='name']");
+    // Локатор отображения инпута ввода email на странице регистрации
     private final By registrationEmailInput = By.xpath(".//fieldset[contains(@class, 'Auth_fieldset__1QzWN mb-6')][2]//input[@type='text' and @name='name']");
+    // Локатор отображения инпута ввода пароля на странице регистрации
     private final By registrationPasswordInput = By.xpath(".//fieldset[contains(@class, 'Auth_fieldset__1QzWN mb-6')][3]//input[@type='password' and @name='Пароль']");
+    // Локатор отображения кнопки регистрации на странице регистрации
     private final By registrationButton = By.xpath(".//button[contains(@class, 'button_button_type_primary__1O7Bx') and contains(text(), 'Зарегистрироваться')]");
+    // Локатор отображения ошибки некорректного пароля
+    private final By errorFailedPassword = By.xpath(".//p[contains(@class, input__error) and contains(text(), 'Некорректный пароль')]");
 
-    // Метод вводит имя в поле "Имя"
+    @Step("Ввожу имя в поле \"Имя\"")
     public void addRegistrationName() {
         WebElement inputElement = driver.findElement(registrationNameInput);
         inputElement.click();
         inputElement.clear();
         inputElement.sendKeys(user.getName());
     }
-    // Метод вводит адрес электронной почты в поле "email"
+    @Step("Ввожу адрес электронной почты в поле \"email\"")
     public void addRegistrationEmail() {
         WebElement inputElement = driver.findElement(registrationEmailInput);
         inputElement.click();
@@ -34,7 +48,7 @@ public class RegistrationPage {
         inputElement.sendKeys(user.getEmail());
     }
 
-    // Метод вводит пароль в поле "Пароль"
+    @Step("Ввожу пароль в поле \"Пароль\"")
     public void addRegistrationPassword() {
         WebElement inputElement = driver.findElement(registrationPasswordInput);
         inputElement.click();
@@ -42,10 +56,17 @@ public class RegistrationPage {
         inputElement.sendKeys(user.getPassword());
     }
 
-    // Метод нажимает на кнопку "Зарегистрироваться"
+    @Step("Нажимаю на кнопку \"Зарегистрироваться\"")
     public void clickRegistrationButton() {
-        WebElement inpetElement = driver.findElement(registrationButton);
-        inpetElement.click();
+        WebElement inputElement = driver.findElement(registrationButton);
+        inputElement.click();
+    }
+
+    @Step("Проверяю отображение ошибки валидации пароля")
+    public void checkPasswordValidation() {
+        new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT))
+                .until(ExpectedConditions.visibilityOfElementLocated(errorFailedPassword));
+        Assert.assertTrue(driver.findElement(errorFailedPassword).isDisplayed());
     }
 
 }

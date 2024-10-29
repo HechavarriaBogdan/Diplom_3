@@ -32,6 +32,9 @@ public class RegistrationPage {
     private final By registrationButton = By.xpath(".//button[contains(@class, 'button_button_type_primary__1O7Bx') and contains(text(), 'Зарегистрироваться')]");
     // Локатор отображения ошибки некорректного пароля
     private final By errorFailedPassword = By.xpath(".//p[contains(@class, input__error) and contains(text(), 'Некорректный пароль')]");
+    // Локатор для кнопки "Войти" на странице регистрации
+    private final By registrationLoginButton = By.cssSelector(".Auth_link__1fOlj");
+
 
     @Step("Ввожу имя в поле \"Имя\"")
     public void addRegistrationName() {
@@ -67,6 +70,14 @@ public class RegistrationPage {
         new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT))
                 .until(ExpectedConditions.visibilityOfElementLocated(errorFailedPassword));
         Assert.assertTrue(driver.findElement(errorFailedPassword).isDisplayed());
+    }
+
+    @Step("Нажимаю на кнопку \"Войти\" на странице регистрации")
+    public void clickRegistrationLoginButton() {
+        WebElement inputElement = driver.findElement(registrationLoginButton);
+        new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT))
+                .until(ExpectedConditions.visibilityOfElementLocated(registrationLoginButton));
+        inputElement.click();
     }
 
 }

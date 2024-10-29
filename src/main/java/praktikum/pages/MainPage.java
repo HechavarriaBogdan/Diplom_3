@@ -24,6 +24,9 @@ public class MainPage {
     private final By loginButton = By.xpath(".//button[contains(text(),'Войти в аккаунт')]");
     // Локатор отображения кнопки оформления заказа на главной странице
     private final By orderButton = By.xpath(".//button[contains(@class, button_button_size_large__G21Vg) and contains(text(), 'Оформить заказ')]");
+    // Локатор отображения кнопки "Личный кабинет" на главной странице
+    private final By personalAccountButton = By.xpath(".//p[contains(@class, 'AppHeader_header__linkText__3q_va') and text()='Личный Кабинет']");
+
     @Step("Открываю веб страницу")
     public void open() {
         driver.get(EnvComfig.BASE_URL);
@@ -43,5 +46,13 @@ public class MainPage {
         new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT))
                 .until(ExpectedConditions.visibilityOfElementLocated(orderButton));
         Assert.assertTrue(inputElement.isDisplayed());
+    }
+
+    @Step("Нажимаю на кнопку \"Личный Кабинет\"")
+    public void clickPersonalAccountButton() {
+        WebElement inputElement = driver.findElement(personalAccountButton);
+        new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT))
+                .until(ExpectedConditions.visibilityOfElementLocated(personalAccountButton));
+        inputElement.click();
     }
 }

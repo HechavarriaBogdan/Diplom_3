@@ -40,6 +40,8 @@ public class LoginPage extends Credentials {
     private final By loginButton = By.xpath(".//button[contains(@class, button_button_type_primary__1O7Bx) and contains(text(), 'Войти')]");
     // Локатор отображения заголовка страницы логина
     private final By pageNameText = By.xpath(".//h2[contains(text(), 'Вход')]");
+    // Локатор отображения кнопки восстановления пароля на странице логина
+    private final By loginRestorePassword = By.xpath(".//a[contains(@class, 'Auth_link__1fOlj') and contains(text(), 'Восстановить пароль')]");
 
 
     @Step("Нажимаю на кнопку зарегистрироваться на странице входа")
@@ -75,6 +77,14 @@ public class LoginPage extends Credentials {
     @Step("Нажимаю на кнопку \"Войти\"")
     public void clickLoginButton() {
         WebElement inputElement = driver.findElement(loginButton);
+        inputElement.click();
+    }
+
+    @Step("Нажимаю на кнопку восстановления пароля")
+    public void clickRestoreButton() {
+        WebElement inputElement = driver.findElement(loginRestorePassword);
+        new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT))
+                .until(ExpectedConditions.visibilityOfElementLocated(loginRestorePassword));
         inputElement.click();
     }
 

@@ -6,18 +6,15 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.html5.LocalStorage;
-import org.openqa.selenium.html5.WebStorage;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import praktikum.Credentials;
 import praktikum.UserCredentials;
 
 import java.time.Duration;
 
 import static praktikum.EnvComfig.EXPLICIT_WAIT;
 
-public class LoginPage extends Credentials {
+public class LoginPage {
     private final WebDriver driver;
     private final UserCredentials user;
 
@@ -28,7 +25,6 @@ public class LoginPage extends Credentials {
     }
 
 
-    private String accessToken;
 
     // Локатор отображения инпута ввода email на странице логина
     private final By loginEmailInput = By.xpath(".//input[contains(@class, 'input__textfield') and @type='text' and @name='name']");
@@ -88,34 +84,5 @@ public class LoginPage extends Credentials {
         inputElement.click();
     }
 
-    @Step("Получаю accessToken после успешной авторизации")
-    public void fetchAuthTokenFromLocalStorage() {
-        MainPage mainPage = new MainPage(driver);
-        new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT))
-                .until(ExpectedConditions.numberOfElementsToBeMoreThan(mainPage.getBunSelector(), 2));
-
-        LocalStorage localStorage = ((WebStorage) driver).getLocalStorage();
-        accessToken = localStorage.getItem("accessToken");
-    }
-
-    @Step("Удаляю пользователя")
-    public void deleteUser() {
-        if (accessToken != null) {
-            spec()
-                    .header("Authorization", accessToken)
-                    .when()
-                    .delete("/auth/user")
-                    .then().log().all();
-        }
-    }
-
-    @Step("Создаю пользователя")
-    public void createUser(UserCredentials user) {
-        spec()
-                .body(user)
-                .when()
-                .post("/auth/register")
-                .then().log().all();
-    }
 
 }

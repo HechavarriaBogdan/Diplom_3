@@ -21,7 +21,7 @@ public class RegistrationTest {
     @DisplayName("Проверка успешной регистрации пользователя")
     public void successRegistration() {
         WebDriver driver = factory.getDriver();
-        UserCredentials user = UserCredentials.random();
+        UserCredentials user = UserCredentials.random(driver);
         var mainPage = new MainPage(driver);
         var loginPage = new LoginPage(driver, user);
         var registrationPage = new RegistrationPage(driver, user);
@@ -36,15 +36,15 @@ public class RegistrationTest {
         loginPage.addLoginEmail();
         loginPage.addLoginPassword();
         loginPage.clickLoginButton();
-        loginPage.fetchAuthTokenFromLocalStorage();
-        loginPage.deleteUser();
+        user.fetchAuthTokenFromLocalStorage();
+        user.deleteUser();
     }
 
     @Test
     @DisplayName("Проверка ошибки регистрации, если пароль содержит менее 6-ти символов")
     public void failedRegistrationWithShortPass() {
         WebDriver driver = factory.getDriver();
-        UserCredentials user = UserCredentials.random();
+        UserCredentials user = UserCredentials.random(driver);
         user.setPassword("12345");
         var mainPage = new MainPage(driver);
         var loginPage = new LoginPage(driver, user);

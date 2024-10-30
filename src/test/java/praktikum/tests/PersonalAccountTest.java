@@ -20,63 +20,63 @@ public class PersonalAccountTest {
     @DisplayName("Переход в личный кабинет пользователя")
     public void successOpenPersonalAccountPage() {
         WebDriver driver = factory.getDriver();
-        UserCredentials user = UserCredentials.random();
+        UserCredentials user = UserCredentials.random(driver);
         MainPage mainPage = new MainPage(driver);
         LoginPage loginPage = new LoginPage(driver, user);
         PersonalAccountPage personalAccountPage = new PersonalAccountPage(driver);
-        loginPage.createUser(user);
+        user.createUser(user);
         mainPage.open();
         mainPage.clickPersonalAccountButton();
         loginPage.addLoginEmail();
         loginPage.addLoginPassword();
         loginPage.clickLoginButton();
-        loginPage.fetchAuthTokenFromLocalStorage();
+        user.fetchAuthTokenFromLocalStorage();
         mainPage.clickPersonalAccountButton();
         personalAccountPage.checkPersonalAccountLogOutButton();
-        loginPage.deleteUser();
+        user.deleteUser();
     }
 
     @Test
     @DisplayName("Переход из личного кабинета в конструктор")
     public void successOpenConstructorFromPersonalAccount() {
         WebDriver driver = factory.getDriver();
-        UserCredentials user = UserCredentials.random();
+        UserCredentials user = UserCredentials.random(driver);
         MainPage mainPage = new MainPage(driver);
         LoginPage loginPage = new LoginPage(driver, user);
         PersonalAccountPage personalAccountPage = new PersonalAccountPage(driver);
-        loginPage.createUser(user);
+        user.createUser(user);
         mainPage.open();
         mainPage.clickPersonalAccountButton();
         loginPage.addLoginEmail();
         loginPage.addLoginPassword();
         loginPage.clickLoginButton();
-        loginPage.fetchAuthTokenFromLocalStorage();
+        user.fetchAuthTokenFromLocalStorage();
         mainPage.clickPersonalAccountButton();
         personalAccountPage.clickPersonalAccountConstructorButton();
         mainPage.checkBunSelector();
-        loginPage.fetchAuthTokenFromLocalStorage();
-        loginPage.deleteUser();
+        user.fetchAuthTokenFromLocalStorage();
+        user.deleteUser();
     }
 
     @Test
     @DisplayName("Выход из аккаунта в личном кабинете")
     public void successLogOutFromPersonalAccount() {
         WebDriver driver = factory.getDriver();
-        UserCredentials user = UserCredentials.random();
+        UserCredentials user = UserCredentials.random(driver);
         MainPage mainPage = new MainPage(driver);
         LoginPage loginPage = new LoginPage(driver, user);
         PersonalAccountPage personalAccountPage = new PersonalAccountPage(driver);
-        loginPage.createUser(user);
+        user.createUser(user);
         mainPage.open();
         mainPage.clickPersonalAccountButton();
         loginPage.addLoginEmail();
         loginPage.addLoginPassword();
         loginPage.clickLoginButton();
-        loginPage.fetchAuthTokenFromLocalStorage();
+        user.fetchAuthTokenFromLocalStorage();
         mainPage.clickPersonalAccountButton();
         personalAccountPage.clickPersonalAccountLogOutButton();
         loginPage.checkLoginPage();
-        loginPage.deleteUser();
+        user.deleteUser();
     }
 
 

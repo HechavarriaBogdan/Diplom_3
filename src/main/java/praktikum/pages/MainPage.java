@@ -27,6 +27,14 @@ public class MainPage {
     // Локатор отображения кнопки "Личный кабинет" на главной странице
     private final By personalAccountButton = By.xpath(".//p[contains(@class, 'AppHeader_header__linkText__3q_va') and text()='Личный Кабинет']");
 
+    // Геттер используется в классе LoginPage чтобы не нарушать правила PageObject
+    public By getBunSelector() {
+        return bunSelector;
+    }
+
+    // Локатор отображения булок на главной странице
+    private final By bunSelector = By.cssSelector("a[class^='BurgerIngredient']");
+
     @Step("Открываю веб страницу")
     public void open() {
         driver.get(EnvComfig.BASE_URL);
@@ -55,4 +63,13 @@ public class MainPage {
                 .until(ExpectedConditions.visibilityOfElementLocated(personalAccountButton));
         inputElement.click();
     }
+
+    @Step("Проверяю отображение булок на главной странице")
+    public void checkBunSelector() {
+        WebElement inputElement = driver.findElement(bunSelector);
+        new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT))
+                .until(ExpectedConditions.visibilityOfElementLocated(bunSelector));
+        Assert.assertTrue(inputElement.isDisplayed());
+    }
+
 }

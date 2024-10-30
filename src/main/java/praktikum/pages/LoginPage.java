@@ -21,15 +21,15 @@ public class LoginPage extends Credentials {
     private final WebDriver driver;
     private final UserCredentials user;
 
+
     public LoginPage(WebDriver driver, UserCredentials user) {
         this.driver = driver;
         this.user = user;
     }
 
+
     private String accessToken;
 
-    // Локатор отображения булок на главной странице
-    private final By bunSelector = By.cssSelector("a[class^='BurgerIngredient']");
     // Локатор отображения инпута ввода email на странице логина
     private final By loginEmailInput = By.xpath(".//input[contains(@class, 'input__textfield') and @type='text' and @name='name']");
     // Локатор отображения инпута ввода пароля на странице логина
@@ -90,8 +90,9 @@ public class LoginPage extends Credentials {
 
     @Step("Получаю accessToken после успешной авторизации")
     public void fetchAuthTokenFromLocalStorage() {
+        MainPage mainPage = new MainPage(driver);
         new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT))
-                .until(ExpectedConditions.numberOfElementsToBeMoreThan(bunSelector, 2));
+                .until(ExpectedConditions.numberOfElementsToBeMoreThan(mainPage.getBunSelector(), 2));
 
         LocalStorage localStorage = ((WebStorage) driver).getLocalStorage();
         accessToken = localStorage.getItem("accessToken");

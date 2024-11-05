@@ -116,10 +116,19 @@ public class MainPage {
 
     @Step("Проверяю срабатываение анимации при нажатии на кнопку \"Булки\"")
     public void checkAnimationAfterClickOnBuns() {
-        WebElement inputElement = driver.findElement(noActiveElementBuns);
+        WebElement bunsElement = driver.findElement(noActiveElementBuns);
+        WebElement saucesElement = driver.findElement(noActiveElementSauces);
         new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT))
-                .until(ExpectedConditions.visibilityOfElementLocated(noActiveElementBuns));
-        inputElement.click();
+                .until(ExpectedConditions.visibilityOfElementLocated(noActiveElementSauces));
+        // Сначала нажимаем на "Соусы" т.к. по умолчанию "Булки" уже выбраны
+        saucesElement.click();
+        new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT))
+                .until(driver -> {
+                    return driver.findElement(firstSauces).getRect().y < 298;
+                });
+        new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT))
+                .until(ExpectedConditions.elementToBeClickable(bunsElement));
+        bunsElement.click();
         new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT))
                 .until(ExpectedConditions.attributeContains(noActiveElementBuns, "class", "current"));
         new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT))

@@ -17,7 +17,7 @@ public class ConstructorTest {
 
 
     @Test
-    @DisplayName("Работа анимации при переходе по разным разделам конструктора")
+    @DisplayName("Работа анимации при переходе в раздел конструктора \"Начинки\" ")
     public void fillingsNavigation() {
         WebDriver driver = factory.getDriver();
         UserCredentials user = UserCredentials.random(driver);
@@ -26,17 +26,50 @@ public class ConstructorTest {
         LoginPage loginPage = new LoginPage(driver, user);
         mainPage.open();
         mainPage.checkAnimationAfterClickOnFillings();
-        mainPage.checkAnimationAfterClickOnSauces();
-        mainPage.checkAnimationAfterClickOnBuns();
         mainPage.clickLoginButton();
         loginPage.addLoginEmail();
         loginPage.addLoginPassword();
         loginPage.clickLoginButton();
         mainPage.checkAnimationAfterClickOnFillings();
+        user.deleteUser();
+    }
+
+    @Test
+    @DisplayName("Работа анимации при переходе в раздел конструктора \"Соусы\" ")
+    public void saucesNavigation() {
+        WebDriver driver = factory.getDriver();
+        UserCredentials user = UserCredentials.random(driver);
+        user.createUser(user);
+        MainPage mainPage = new MainPage(driver);
+        LoginPage loginPage = new LoginPage(driver, user);
+        mainPage.open();
         mainPage.checkAnimationAfterClickOnSauces();
+        mainPage.clickLoginButton();
+        loginPage.addLoginEmail();
+        loginPage.addLoginPassword();
+        loginPage.clickLoginButton();
+        mainPage.checkAnimationAfterClickOnSauces();
+        user.deleteUser();
+    }
+
+    @Test
+    @DisplayName("Работа анимации при переходе в раздел конструктора \"Булки\"")
+    public void bunsNavigation() {
+        WebDriver driver = factory.getDriver();
+        UserCredentials user = UserCredentials.random(driver);
+        user.createUser(user);
+        MainPage mainPage = new MainPage(driver);
+        LoginPage loginPage = new LoginPage(driver, user);
+        mainPage.open();
+        mainPage.checkAnimationAfterClickOnBuns();
+        mainPage.clickLoginButton();
+        loginPage.addLoginEmail();
+        loginPage.addLoginPassword();
+        loginPage.clickLoginButton();
         mainPage.checkAnimationAfterClickOnBuns();
         user.deleteUser();
     }
+
 
 
 }
